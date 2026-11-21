@@ -1,0 +1,522 @@
+const data = {
+   users: [
+      { id: 1, name: "1 - علی محمدی", username: "ali_mohammadi", email: "ali.mohammadi@gmail.com", password: "Ali@4729" },
+      { id: 2, name: "2 - سارا احمدی", username: "sara_ahmadi", email: "sara.ahmadi@yahoo.com", password: "Sara#5831" },
+      { id: 3, name: "3 - امیر رضایی", username: "amir_rezaei", email: "amir.rezaei@outlook.com", password: "Amir!6942" },
+      { id: 4, name: "4 - نگار کریمی", username: "negar_karimi", email: "negar.karimi@gmail.com", password: "Negar@7253" },
+      { id: 5, name: "5 - محمد حسینی", username: "mohammad_hosseini", email: "m.hosseini@yahoo.com", password: "Mohammad#8364" },
+      { id: 6, name: "6 - مریم موسوی", username: "maryam_mousavi", email: "maryam.mousavi@outlook.com", password: "Maryam!9475" },
+      { id: 7, name: "7 - رضا اکبری", username: "reza_akbari", email: "reza.akbari@gmail.com", password: "Reza@1586" },
+      { id: 8, name: "8 - فاطمه جعفری", username: "fatemeh_jafari", email: "fatemeh.jafari@yahoo.com", password: "Fatemeh#2697" },
+      { id: 9, name: "9 - حسین نادری", username: "hossein_naderi", email: "hossein.naderi@outlook.com", password: "Hossein!3708" },
+      { id: 10, name: "10 - زهرا صادقی", username: "zahra_sadeghi", email: "zahra.sadeghi@gmail.com", password: "Zahra@4819" },
+      { id: 11, name: "11 - آرش کاظمی", username: "arash_kazemi", email: "arash.kazemi@yahoo.com", password: "Arash#5920" },
+      { id: 12, name: "12 - الهام مرادی", username: "elham_moradi", email: "elham.moradi@outlook.com", password: "Elham!6031" },
+      { id: 13, name: "13 - پویا رستمی", username: "pouya_rostami", email: "pouya.rostami@gmail.com", password: "Pouya@7142" },
+      { id: 14, name: "14 - نازنین شریفی", username: "nazanin_sharifi", email: "nazanin.sharifi@yahoo.com", password: "Nazanin#8253" },
+      { id: 15, name: "15 - کیان فرهادی", username: "kian_farhadi", email: "kian.farhadi@outlook.com", password: "Kian!9364" },
+   ],
+
+   products: [
+      { id: 1, title: "1 - کفش ورزشی نایک ایر مکس", price: 3250000, slug: "nike-air-max-shoes" },
+      { id: 2, title: "2 - هودی مردانه آدیداس", price: 1890000, slug: "adidas-men-hoodie" },
+      { id: 3, title: "3 - ساعت هوشمند سامسونگ", price: 8750000, slug: "samsung-galaxy-watch" },
+      { id: 4, title: "4 - هدفون بی‌سیم سونی", price: 5420000, slug: "sony-wireless-headphones" },
+      { id: 5, title: "5 - کوله‌پشتی لپ‌تاپ شیائومی", price: 1250000, slug: "xiaomi-laptop-backpack" },
+      { id: 6, title: "6 - ماوس گیمینگ لاجیتک", price: 2380000, slug: "logitech-gaming-mouse" },
+      { id: 7, title: "7 - کیبورد مکانیکی ردراگون", price: 3690000, slug: "redragon-mechanical-keyboard" },
+      { id: 8, title: "8 - اسپیکر بلوتوث جی‌بی‌ال", price: 4150000, slug: "jbl-bluetooth-speaker" },
+      { id: 9, title: "9 - تیشرت پنبه‌ای پوما", price: 980000, slug: "puma-cotton-tshirt" },
+      { id: 10, title: "10 - شلوار جین مردانه لیوایز", price: 2760000, slug: "levis-men-jeans" },
+      { id: 11, title: "11 - عینک آفتابی ری‌بن", price: 4980000, slug: "rayban-sunglasses" },
+      { id: 12, title: "12 - کفش پیاده‌روی اسکیچرز", price: 3450000, slug: "skechers-walking-shoes" },
+      { id: 13, title: "13 - فلش مموری سن‌دیسک ۱۲۸ گیگابایت", price: 850000, slug: "sandisk-128gb-flash-drive" },
+      { id: 14, title: "14 - پاوربانک انکر ۲۰۰۰۰ میلی‌آمپر", price: 2950000, slug: "anker-20000mah-powerbank" },
+      { id: 15, title: "15 - مانیتور ال‌جی ۲۷ اینچ", price: 12800000, slug: "lg-27-inch-monitor" },
+      { id: 16, title: "16 - میکروفون رومیزی ریزر", price: 6750000, slug: "razer-desktop-microphone" },
+      { id: 17, title: "17 - دسته بازی ایکس‌باکس", price: 5290000, slug: "xbox-wireless-controller" },
+      { id: 18, title: "18 - هارد اکسترنال وسترن دیجیتال", price: 4380000, slug: "wd-external-hard-drive" },
+      { id: 19, title: "19 - دوربین ورزشی گوپرو", price: 19600000, slug: "gopro-action-camera" },
+      { id: 20, title: "20 - تبلت سامسونگ گلکسی تب", price: 17400000, slug: "samsung-galaxy-tablet" },
+   ],
+};
+let users = data.users;
+let usersToLocalStorage = [];
+users.forEach(function (user) {
+   const newUserObj = {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+   };
+   usersToLocalStorage.push(newUserObj);
+});
+
+let products = data.products;
+let theme = "light";
+
+usersToLocalStorage = getInfoFromLocalStorage("Users", usersToLocalStorage);
+products = getInfoFromLocalStorage("Products", products);
+theme = getInfoFromLocalStorage("Theme", theme);
+
+let lastUsers = usersToLocalStorage.slice(-5).reverse();
+let firstProducts = products.slice(0, 5);
+
+let page = 1;
+let itmesPerPageNumber = 4;
+let firstIndex = (page - 1) * itmesPerPageNumber;
+let lastIndex = firstIndex + itmesPerPageNumber;
+let slicedProducts = products.slice(firstIndex, lastIndex);
+let slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
+
+let selectedProductObj;
+let selectedUserObj;
+
+let toastInterval;
+
+const toggleSidebarBtn = document.querySelector(".toggle-sidebar");
+const sidebar = document.querySelector(".sidebar");
+const lastUsersContainer = document.querySelector(".latest-users");
+const firstProductsContainer = document.querySelector("#first-products-container");
+const slicedProductsContainer = document.querySelector("#sliced-products-container");
+const slicedUsersContainer = document.querySelector("#sliced-users-container");
+const productsNumberElem = document.querySelector(".products-data");
+const usersNumberElem = document.querySelector(".users-data");
+const modalScreen = document.querySelector(".modal-screen");
+const modal = document.querySelector(".modal");
+const toast = document.querySelector(".toast");
+
+function getInfoFromLocalStorage(key, defaultValue) {
+   const localInfo = JSON.parse(localStorage.getItem(key));
+
+   if (localInfo !== null) {
+      return localInfo;
+   } else {
+      return defaultValue;
+   }
+}
+
+function toggleSidebarWidth() {
+   sidebar.classList.toggle("open");
+}
+
+function saveInfoInLocalStorage(key, value) {
+   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function showLastUsers() {
+   lastUsersContainer.innerHTML = `
+   <i class="ui-border top indigo"></i>
+   <div class="section-header">
+      <p class="section-title">جدیدترین کاربران</p>
+      <!-- Redirect to /dashboard/users page -->
+      <a href="./dashboard/users/" class="section-link">
+         بیشتر
+         <!-- Arrow(Chervon Left) -->
+         <i class="fa-solid fa-chevron-left"></i>
+      </a>
+   </div>
+   `;
+   lastUsers.forEach(function (user) {
+      lastUsersContainer.insertAdjacentHTML(
+         "beforeend",
+         `
+         <article>
+              <!-- user icon -->
+              <span class="icon-card">
+                <i class="fa-solid fa-user"></i>
+              </span>
+              <!-- user data -->
+              <div>
+                <p class="user-name">${user.name}</p>
+                <p class="user-email">${user.email}</p>
+              </div>
+         </article>
+         `,
+      );
+   });
+}
+
+function showProducts(products, container) {
+   container.innerHTML = "";
+   products.forEach(function (product) {
+      container.insertAdjacentHTML(
+         "beforeend",
+         `
+         <div class="tableRow">
+                <p class="product-title">${product.title}</p>
+                <p class="product-price">${product.price.toLocaleString()}</p>
+                <p class="product-shortName">${product.slug}</p>
+                <div class="product-manage">
+                  <button class="edit-btn" onclick="showModal('edit-product', ${product.id})">
+                    <!-- Edit icon -->
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="remove-btn" onclick="showModal('delete-product', ${product.id})">
+                    <!-- Delete fas icon -->
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+         </div>
+         `,
+      );
+   });
+}
+
+function showSlicedUsers() {
+   slicedUsersContainer.innerHTML = "";
+   slicedUsers.forEach(function (user) {
+      slicedUsersContainer.insertAdjacentHTML(
+         "beforeend",
+         `
+         <div class="tableRow">
+              <p class="user-fullName">${user.name}</p>
+              <p class="user-username">${user.username}</p>
+              <p class="user-email">${user.email}</p>
+              <p class="user-password">********</p>
+              <div class="product-manage">
+                <button class="edit-btn" onclick="showModal('edit-user', ${user.id})">
+                  <!-- Edit icon -->
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="remove-btn" onclick="showModal('delete-user', ${user.id})">
+                  <!-- Ban icon -->
+                  <i class="fas fa-ban"></i>
+                </button>
+              </div>
+         </div>
+         `,
+      );
+   });
+}
+
+function countItemsNumbers(countElem, items) {
+   countElem.innerHTML = items.length;
+}
+
+function showModal(operation, itemId) {
+   modalScreen.classList.remove("hidden");
+
+   if (operation === "edit-product") {
+      modal.innerHTML = `
+      <header class="modal-header">
+         <h3>ویرایش محصول</h3>
+         <button class="close-modal" onclick="hideModal()">
+            <i class="fas fa-times"></i>
+         </button>
+      </header>
+      <main class="modal-content">
+         <input type="text" class="modal-input" placeholder="عنوان محصول را وارد نمائید ..." id="product-title" />
+         <input type="number" class="modal-input" placeholder="قیمت محصول را وارد نمائید ..." id="product-price" />
+         <input type="text" class="modal-input" placeholder="عنوان کوتاه محصول را وارد نمائید ..." id="product-shortName" />
+      </main>
+      <footer class="modal-footer">
+         <button class="cancel" onclick="hideModal()">انصراف</button>
+         <button class="submit" onclick="editItem('Products')">تائید</button>
+      </footer>
+      `;
+      const productTitleInput = document.querySelector("#product-title");
+      const productPriceInput = document.querySelector("#product-price");
+      const productSlugInput = document.querySelector("#product-shortName");
+
+      selectedProductObj = products.find(function (product) {
+         return product.id === itemId;
+      });
+
+      if (selectedProductObj) {
+         productTitleInput.value = selectedProductObj.title;
+         productPriceInput.value = selectedProductObj.price;
+         productSlugInput.value = selectedProductObj.slug;
+      } else {
+         hideModal();
+      }
+   } else if (operation === "edit-user") {
+      modal.innerHTML = `
+      <i class="ui-border top red"></i>
+      <i class="ui-border bottom red"></i>
+     <header class="modal-header">
+         <h3>ویرایش اطلاعات کاربر</h3>
+         <button class="close-modal" onclick="hideModal()">
+            <i class="fas fa-times"></i>
+         </button>
+      </header>
+      <main class="modal-content">
+         <input type="text" class="modal-input" placeholder="نام و نام خانوادگی را وارد نمائید ..." id="user-fullName" />
+         <input type="text" class="modal-input" id="user-username" placeholder="نام کاربری را وارد نمائید ..." />
+         <input type="email" class="modal-input" id="user-email" placeholder="ایمیل را وارد نمائید ..." />
+      </main>
+      <footer class="modal-footer">
+         <button class="cancel" onclick="hideModal()">انصراف</button>
+         <button class="submit" onclick="editItem('Users')">تائید</button>
+      </footer>
+      `;
+
+      const userFullnameInput = document.querySelector("#user-fullName");
+      const userUserNameInput = document.querySelector("#user-username");
+      const userEmailInput = document.querySelector("#user-email");
+
+      selectedUserObj = usersToLocalStorage.find(function (user) {
+         return user.id === itemId;
+      });
+
+      if (selectedUserObj) {
+         userFullnameInput.value = selectedUserObj.name;
+         userUserNameInput.value = selectedUserObj.username;
+         userEmailInput.value = selectedUserObj.email;
+      } else {
+         hideModal();
+      }
+   } else if (operation === "delete-product") {
+      modal.innerHTML = `
+        <i class="ui-border top red"></i>
+        <i class="ui-border bottom red"></i>
+        <header class="modal-header">
+          <h3>حذف محصول</h3>
+          <button class="close-modal" onclick="hideModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </header>
+        <main class="modal-content">
+          <p class="remove-text">آیا از حذف این محصول اطمینان دارید؟</p>
+        </main>
+        <footer class="modal-footer">
+          <button class="cancel" onclick="hideModal()">انصراف</button>
+          <button class="submit" onclick="removeItem(${itemId}, products)">تائید</button>
+        </footer>
+      `;
+   } else if (operation === "delete-user") {
+      modal.innerHTML = `
+      <i class="ui-border top red"></i>
+        <i class="ui-border bottom red"></i>
+        <header class="modal-header">
+          <h3>اخراج کاربر</h3>
+          <button class="close-modal" onclick="hideModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </header>
+        <main class="modal-content">
+          <p class="remove-text">آیا از اخراج(بن) کردن این کاربر اطمینان دارید؟</p>
+        </main>
+        <footer class="modal-footer">
+          <button class="cancel" onclick="hideModal()">انصراف</button>
+          <button class="submit" onclick="removeItem(${itemId}, usersToLocalStorage)"">تائید</button>
+        </footer>
+      `;
+   }
+}
+
+function hideModal() {
+   modalScreen.classList.add("hidden");
+}
+
+function editItem(items) {
+   if (items === "Products") {
+      if (selectedProductObj) {
+         const productTitleInput = document.querySelector("#product-title");
+         const productPriceInput = document.querySelector("#product-price");
+         const productSlugInput = document.querySelector("#product-shortName");
+
+         selectedProductObj.title = productTitleInput.value;
+         selectedProductObj.price = +productPriceInput.value;
+         selectedProductObj.slug = productSlugInput.value;
+
+         saveInfoInLocalStorage("Products", products);
+
+         if (firstProductsContainer) {
+            showProducts(firstProducts, firstProductsContainer);
+         }
+         if (slicedProductsContainer) {
+            page = 1;
+            itmesPerPageNumber = 4;
+            firstIndex = (page - 1) * itmesPerPageNumber;
+            lastIndex = firstIndex + itmesPerPageNumber;
+            showProducts(slicedProducts, slicedProductsContainer);
+         }
+
+         hideModal();
+         showToast("edit", "success");
+      } else {
+         showToast("edit", "failed");
+      }
+   } else if (items === "Users") {
+      if (selectedUserObj) {
+         const userFullnameInput = document.querySelector("#user-fullName");
+         const userUserNameInput = document.querySelector("#user-username");
+         const userEmailInput = document.querySelector("#user-email");
+
+         selectedUserObj.name = userFullnameInput.value;
+         selectedUserObj.username = userUserNameInput.value;
+         selectedUserObj.email = userEmailInput.value;
+
+         saveInfoInLocalStorage("Users", usersToLocalStorage);
+
+         if (lastUsersContainer) {
+            showLastUsers();
+         }
+
+         if (slicedUsersContainer) {
+            showSlicedUsers();
+         }
+
+         showToast("edit", "success");
+         hideModal();
+      } else {
+         showToast("edit", "failed");
+      }
+   }
+}
+
+function removeItem(itemId, items) {
+   const selectedItemIndex = items.findIndex(function (item) {
+      return item.id === itemId;
+   });
+
+   if (selectedItemIndex !== -1) {
+      items.splice(selectedItemIndex, 1);
+
+      if (firstProductsContainer || slicedProductsContainer) {
+         saveInfoInLocalStorage("Products", products);
+      }
+
+      if (slicedUsersContainer) {
+         saveInfoInLocalStorage("Users", usersToLocalStorage);
+         slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
+         showSlicedUsers();
+         countItemsNumbers(usersNumberElem, usersToLocalStorage);
+      }
+
+      if (firstProductsContainer) {
+         firstProducts = products.slice(0, 5);
+         showProducts(firstProducts, firstProductsContainer);
+         countItemsNumbers(productsNumberElem, products);
+      }
+
+      if (slicedProductsContainer) {
+         slicedProducts = products.slice(firstIndex, lastIndex);
+         showProducts(slicedProducts, slicedProductsContainer);
+         countItemsNumbers(productsNumberElem, products);
+      }
+
+      hideModal();
+      showToast("delete", "success");
+   } else {
+      hideModal();
+      showToast("delete", "failed");
+   }
+
+   // if (selectedProductIndex !== -1) {
+   //    if (firstProductsContainer) {
+   //       saveInfoInLocalStorage("Products", selectedProductIndex);
+   //       updateUsers()
+   //       showProducts(firstProducts, firstProductsContainer);
+   //       hideModal();
+   //    }
+   // }
+}
+
+function showToast(action, condition) {
+   clearInterval(toastInterval);
+   toast.classList.remove("hidden");
+
+   if (action === "edit") {
+      if (condition === "success") {
+         toast.className = "toast success";
+         toast.innerHTML = `
+         <i class="ui-border top-0"></i>
+         <span class="icon-card">
+            <span class="icon"></span>
+         </span>
+         <span class="toast-content">ویرایش با موفقیت انجام شد</span>
+         <div class="process-bar">
+            <div class="process"></div>
+         </div>
+         `;
+      } else if (condition === "failed") {
+         toast.className = "toast failed";
+         toast.innerHTML = `
+         <i class="ui-border top-0"></i>
+         <span class="icon-card">
+            <span class="icon"></span>
+         </span>
+         <span class="toast-content">ویرایش با شکست مواجه شد</span>
+         <div class="process-bar">
+            <div class="process"></div>
+         </div>
+         `;
+      }
+   } else if (action === "delete") {
+      if (condition === "success") {
+         toast.className = "toast success";
+         toast.innerHTML = `
+         <i class="ui-border top-0"></i>
+         <span class="icon-card">
+            <span class="icon"></span>
+         </span>
+         <span class="toast-content">حذف با موفقیت انجام شد</span>
+         <div class="process-bar">
+            <div class="process"></div>
+         </div>
+         `;
+      } else if (condition === "failed") {
+         toast.className = "toast failed";
+         toast.innerHTML = `
+         toast.className = "toast failed";
+         <i class="ui-border top-0"></i>
+         <span class="icon-card">
+            <span class="icon"></span>
+         </span>
+         <span class="toast-content">حذف با شکست مواجه شد</span>
+         <div class="process-bar">
+            <div class="process"></div>
+         </div>      
+         `;
+      }
+   }
+
+   const processElem = document.querySelector(".process");
+   let counter = 0;
+   toastInterval = setInterval(function () {
+      counter++;
+
+      processElem.style.width = `${counter}%`;
+
+      if (counter >= 100) {
+         clearInterval(toastInterval);
+         hideToast();
+      }
+   }, 60);
+}
+
+function hideToast() {
+   toast.classList.add("hidden");
+}
+
+toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
+
+if (lastUsersContainer) {
+   showLastUsers();
+}
+
+if (firstProductsContainer) {
+   showProducts(firstProducts, firstProductsContainer);
+}
+
+if (slicedProductsContainer) {
+   showProducts(slicedProducts, slicedProductsContainer);
+}
+
+if (slicedUsersContainer) {
+   showSlicedUsers();
+}
+
+if (usersNumberElem) {
+   countItemsNumbers(usersNumberElem, usersToLocalStorage);
+}
+
+if (productsNumberElem) {
+   countItemsNumbers(productsNumberElem, products);
+}
+
+// saveInfoInLocalStorage("Users", usersToLocalStorage);
+// saveInfoInLocalStorage("Products", products);
+// saveInfoInLocalStorage("Theme", theme);
