@@ -66,6 +66,7 @@ let page = 1;
 let itmesPerPageNumber = 4;
 let firstIndex = (page - 1) * itmesPerPageNumber;
 let lastIndex = firstIndex + itmesPerPageNumber;
+
 let slicedProducts = products.slice(firstIndex, lastIndex);
 let slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
 
@@ -85,6 +86,7 @@ const usersNumberElem = document.querySelector(".users-data");
 const modalScreen = document.querySelector(".modal-screen");
 const modal = document.querySelector(".modal");
 const toast = document.querySelector(".toast");
+const paginationElem = document.querySelector(".pagination");
 
 function getInfoFromLocalStorage(key, defaultValue) {
    const localInfo = JSON.parse(localStorage.getItem(key));
@@ -395,19 +397,16 @@ function removeItem(itemId, items) {
 
       hideModal();
       showToast("حذف", "success");
+      if (slicedProductsContainer) {
+         makePagintion(products)
+      }
+      if (slicedUsersContainer) {
+         makePagintion(usersToLocalStorage)
+      }
    } else {
       hideModal();
       showToast("حذف", "failed");
    }
-
-   // if (selectedProductIndex !== -1) {
-   //    if (firstProductsContainer) {
-   //       saveInfoInLocalStorage("Products", selectedProductIndex);
-   //       updateUsers()
-   //       showProducts(firstProducts, firstProductsContainer);
-   //       hideModal();
-   //    }
-   // }
 }
 
 function showToast(action, condition) {
@@ -444,6 +443,39 @@ function hideToast() {
    toast.classList.add("hidden");
 }
 
+function makePagintion(items) {
+   const pagintionSlidesNumber = Math.ceil(items.length / itmesPerPageNumber);
+
+   paginationElem.innerHTML = "";
+   for (let i = 1; i < pagintionSlidesNumber + 1; i++) {
+      paginationElem.innerHTML += `<span tabindex="1" class="page ${i === page ? "active" : ""}" onclick="changePage(${i})" >${i}</span>`;
+   }
+}
+
+function changePage(itemId) {
+   page = itemId;
+   updatePaginationInfo();
+
+   if (slicedProductsContainer) {
+      showProducts(slicedProducts, slicedProductsContainer);
+      makePagintion(products)
+   }
+
+   if (slicedUsersContainer) {
+      showSlicedUsers();
+      makePagintion(usersToLocalStorage)
+   }
+}
+
+function updatePaginationInfo() {
+   itmesPerPageNumber = 4;
+   firstIndex = (page - 1) * itmesPerPageNumber;
+   lastIndex = firstIndex + itmesPerPageNumber;
+
+   slicedProducts = products.slice(firstIndex, lastIndex);
+   slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
+}
+
 toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
 
 if (lastUsersContainer) {
@@ -456,10 +488,12 @@ if (firstProductsContainer) {
 
 if (slicedProductsContainer) {
    showProducts(slicedProducts, slicedProductsContainer);
+   makePagintion(products);
 }
 
 if (slicedUsersContainer) {
    showSlicedUsers();
+   makePagintion(usersToLocalStorage);
 }
 
 if (usersNumberElem) {
@@ -470,6 +504,6 @@ if (productsNumberElem) {
    countItemsNumbers(productsNumberElem, products);
 }
 
-// saveInfoInLocalStorage("Users", usersToLocalStorage);
-// saveInfoInLocalStorage("Products", products);
-// saveInfoInLocalStorage("Theme", theme);
+saveInfoInLocalStorage("Users", usersToLocalStorage);
+saveInfoInLocalStorage("Products", products);
+saveInfoInLocalStorage("Theme", theme);
