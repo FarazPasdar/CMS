@@ -299,7 +299,7 @@ function showModal(operation, itemId) {
         </main>
         <footer class="modal-footer">
           <button class="cancel" onclick="hideModal()">انصراف</button>
-          <button class="submit" onclick="removeItem(${itemId}, usersToLocalStorage)"">تائید</button>
+          <button class="submit" onclick="removeItem(${itemId}, usersToLocalStorage)">تائید</button>
         </footer>
       `;
    }
@@ -334,9 +334,9 @@ function editItem(items) {
          }
 
          hideModal();
-         showToast("edit", "success");
+         showToast("ویرایش", "success");
       } else {
-         showToast("edit", "failed");
+         showToast("ویرایش", "failed");
       }
    } else if (items === "Users") {
       if (selectedUserObj) {
@@ -358,10 +358,10 @@ function editItem(items) {
             showSlicedUsers();
          }
 
-         showToast("edit", "success");
+         showToast("ویرایش", "success");
          hideModal();
       } else {
-         showToast("edit", "failed");
+         showToast("ویرایش", "failed");
       }
    }
 }
@@ -398,10 +398,10 @@ function removeItem(itemId, items) {
       }
 
       hideModal();
-      showToast("delete", "success");
+      showToast("حذف", "success");
    } else {
       hideModal();
-      showToast("delete", "failed");
+      showToast("حذف", "failed");
    }
 
    // if (selectedProductIndex !== -1) {
@@ -416,62 +416,19 @@ function removeItem(itemId, items) {
 
 function showToast(action, condition) {
    clearInterval(toastInterval);
-   toast.classList.remove("hidden");
 
-   if (action === "edit") {
-      if (condition === "success") {
-         toast.className = "toast success";
-         toast.innerHTML = `
-         <i class="ui-border top-0"></i>
-         <span class="icon-card">
-            <span class="icon"></span>
-         </span>
-         <span class="toast-content">ویرایش با موفقیت انجام شد</span>
-         <div class="process-bar">
-            <div class="process"></div>
-         </div>
-         `;
-      } else if (condition === "failed") {
-         toast.className = "toast failed";
-         toast.innerHTML = `
-         <i class="ui-border top-0"></i>
-         <span class="icon-card">
-            <span class="icon"></span>
-         </span>
-         <span class="toast-content">ویرایش با شکست مواجه شد</span>
-         <div class="process-bar">
-            <div class="process"></div>
-         </div>
-         `;
-      }
-   } else if (action === "delete") {
-      if (condition === "success") {
-         toast.className = "toast success";
-         toast.innerHTML = `
-         <i class="ui-border top-0"></i>
-         <span class="icon-card">
-            <span class="icon"></span>
-         </span>
-         <span class="toast-content">حذف با موفقیت انجام شد</span>
-         <div class="process-bar">
-            <div class="process"></div>
-         </div>
-         `;
-      } else if (condition === "failed") {
-         toast.className = "toast failed";
-         toast.innerHTML = `
-         toast.className = "toast failed";
-         <i class="ui-border top-0"></i>
-         <span class="icon-card">
-            <span class="icon"></span>
-         </span>
-         <span class="toast-content">حذف با شکست مواجه شد</span>
-         <div class="process-bar">
-            <div class="process"></div>
-         </div>      
-         `;
-      }
-   }
+   const message = condition === "success" ? "با موفقیت انجام شد" : "با شکست مواجه شد";
+   toast.className = `toast ${condition}`;
+   toast.innerHTML = `
+      <i class="ui-border top-0"></i>
+      <span class="icon-card">
+         <span class="icon"></span>
+      </span>
+      <span class="toast-content">${action} ${message}</span>
+      <div class="process-bar">
+         <div class="process"></div>
+      </div>
+      `;
 
    const processElem = document.querySelector(".process");
    let counter = 0;
