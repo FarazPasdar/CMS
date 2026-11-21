@@ -326,10 +326,6 @@ function editItem(items) {
             showProducts(firstProducts, firstProductsContainer);
          }
          if (slicedProductsContainer) {
-            page = 1;
-            itmesPerPageNumber = 4;
-            firstIndex = (page - 1) * itmesPerPageNumber;
-            lastIndex = firstIndex + itmesPerPageNumber;
             showProducts(slicedProducts, slicedProductsContainer);
          }
 
