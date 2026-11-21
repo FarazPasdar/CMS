@@ -59,6 +59,8 @@ usersToLocalStorage = getInfoFromLocalStorage("Users", usersToLocalStorage);
 products = getInfoFromLocalStorage("Products", products);
 theme = getInfoFromLocalStorage("Theme", theme);
 
+document.documentElement.classList.toggle("dark", theme === "dark");
+
 let lastUsers = usersToLocalStorage.slice(-5).reverse();
 let firstProducts = products.slice(0, 5);
 
@@ -87,6 +89,7 @@ const modalScreen = document.querySelector(".modal-screen");
 const modal = document.querySelector(".modal");
 const toast = document.querySelector(".toast");
 const paginationElem = document.querySelector(".pagination");
+const toggleThemeBtn = document.querySelector(".theme-button");
 
 function getInfoFromLocalStorage(key, defaultValue) {
    const localInfo = JSON.parse(localStorage.getItem(key));
@@ -398,10 +401,10 @@ function removeItem(itemId, items) {
       hideModal();
       showToast("حذف", "success");
       if (slicedProductsContainer) {
-         makePagintion(products)
+         makePagintion(products);
       }
       if (slicedUsersContainer) {
-         makePagintion(usersToLocalStorage)
+         makePagintion(usersToLocalStorage);
       }
    } else {
       hideModal();
@@ -458,12 +461,12 @@ function changePage(itemId) {
 
    if (slicedProductsContainer) {
       showProducts(slicedProducts, slicedProductsContainer);
-      makePagintion(products)
+      makePagintion(products);
    }
 
    if (slicedUsersContainer) {
       showSlicedUsers();
-      makePagintion(usersToLocalStorage)
+      makePagintion(usersToLocalStorage);
    }
 }
 
@@ -474,6 +477,14 @@ function updatePaginationInfo() {
 
    slicedProducts = products.slice(firstIndex, lastIndex);
    slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
+}
+
+function themeHandler() {
+   theme = theme === "dark" ? "light" : "dark";
+
+   document.documentElement.classList.toggle("dark", theme === "dark");
+
+   saveInfoInLocalStorage("Theme", theme);
 }
 
 toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
@@ -504,6 +515,10 @@ if (productsNumberElem) {
    countItemsNumbers(productsNumberElem, products);
 }
 
-saveInfoInLocalStorage("Users", usersToLocalStorage);
-saveInfoInLocalStorage("Products", products);
-saveInfoInLocalStorage("Theme", theme);
+if (toggleThemeBtn) {
+   toggleThemeBtn.addEventListener("click", themeHandler);
+}
+
+// saveInfoInLocalStorage("Users", usersToLocalStorage);
+// saveInfoInLocalStorage("Products", products);
+// saveInfoInLocalStorage("Theme", theme);
