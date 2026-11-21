@@ -90,6 +90,7 @@ const modal = document.querySelector(".modal");
 const toast = document.querySelector(".toast");
 const paginationElem = document.querySelector(".pagination");
 const toggleThemeBtn = document.querySelector(".theme-button");
+const createProductBtn = document.querySelector("#create-product");
 
 function getInfoFromLocalStorage(key, defaultValue) {
    const localInfo = JSON.parse(localStorage.getItem(key));
@@ -307,6 +308,24 @@ function showModal(operation, itemId) {
           <button class="submit" onclick="removeItem(${itemId}, usersToLocalStorage)">تائید</button>
         </footer>
       `;
+   } else if (operation === "create-product") {
+      modal.innerHTML = `
+      <header class="modal-header">
+         <h3>ایجاد محصول</h3>
+         <button class="close-modal" onclick="hideModal()">
+            <i class="fas fa-times"></i>
+         </button>
+      </header>
+      <main class="modal-content">
+         <input type="text" class="modal-input" placeholder="عنوان محصول را وارد نمائید ..." id="product-title" />
+         <input type="number" class="modal-input" placeholder="قیمت محصول را وارد نمائید ..." id="product-price" />
+         <input type="number" class="modal-input" placeholder="عنوان کوتاه محصول را وارد نمائید ..." id="product-shortName" />
+      </main>
+      <footer class="modal-footer">
+         <button class="cancel" onclick="hideModal()">انصراف</button>
+         <button class="submit" onclick="createProduct()">تائید</button>
+      </footer>
+      `;
    }
 }
 
@@ -487,6 +506,33 @@ function themeHandler() {
    saveInfoInLocalStorage("Theme", theme);
 }
 
+function createProduct() {
+   const productTitleInput = document.querySelector("#product-title");
+   const productPriceInput = document.querySelector("#product-price");
+   const productSlugInput = document.querySelector("#product-shortName");
+
+   const newProductObj = {
+      id: Math.floor(Math.random() * 9999),
+      title: productTitleInput.value,
+      price: productPriceInput.value,
+      slug: productSlugInput.value,
+   };
+
+   products.push(newProductObj);
+   saveInfoInLocalStorage("Products", products);
+   if (firstProductsContainer) {
+      firstProducts = products.slice(0, 5);
+      showProducts(firstProducts, firstProductsContainer);
+   }
+   if (slicedProductsContainer) {
+      showProducts(slicedProducts, slicedProductsContainer);
+   }
+
+   countItemsNumbers(productsNumberElem, products);
+   makePagintion(products)
+   hideModal();
+}
+
 toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
 
 if (lastUsersContainer) {
@@ -517,6 +563,12 @@ if (productsNumberElem) {
 
 if (toggleThemeBtn) {
    toggleThemeBtn.addEventListener("click", themeHandler);
+}
+
+if (createProductBtn) {
+   createProductBtn.addEventListener("click", function () {
+      showModal("create-product");
+   });
 }
 
 // saveInfoInLocalStorage("Users", usersToLocalStorage);
