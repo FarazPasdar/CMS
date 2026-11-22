@@ -91,6 +91,7 @@ const toast = document.querySelector(".toast");
 const paginationElem = document.querySelector(".pagination");
 const toggleThemeBtn = document.querySelector(".theme-button");
 const createProductBtn = document.querySelector("#create-product");
+const createUsertBtn = document.querySelector("#create-user");
 
 function getInfoFromLocalStorage(key, defaultValue) {
    const localInfo = JSON.parse(localStorage.getItem(key));
@@ -326,6 +327,24 @@ function showModal(operation, itemId) {
          <button class="submit" onclick="createProduct()">تائید</button>
       </footer>
       `;
+   } else if (operation === "create-user") {
+      modal.innerHTML = `
+      <header class="modal-header">
+         <h3>ایجاد کاربر جدید</h3>
+         <button class="close-modal" onclick="hideModal()">
+            <i class="fas fa-times"></i>
+         </button>
+      </header>
+      <main class="modal-content">
+         <input type="text" class="modal-input" placeholder="نام و نام خانوادگی را وارد نمائید ..." id="user-fullName" />
+         <input type="text" class="modal-input" id="user-username" placeholder="نام کاربری را وارد نمائید ..." />
+         <input type="email" class="modal-input" id="user-email" placeholder="ایمیل را وارد نمائید ..." />
+      </main>
+      <footer class="modal-footer">
+         <button class="cancel" onclick="hideModal()">انصراف</button>
+         <button class="submit" onclick="createUser()">تائید</button>
+      </footer>
+      `;
    }
 }
 
@@ -546,6 +565,40 @@ function createProduct() {
    hideModal();
 }
 
+function createUser() {
+   const userFullNameInput = document.querySelector("#user-fullName");
+   const userUserNameInput = document.querySelector("#user-username");
+   const userEmailInput = document.querySelector("#user-email");
+
+   if (userFullNameInput.value.trim()) {
+      const newUserObj = {
+         id: Math.floor(Math.random() * 9999),
+         name: userFullNameInput.value,
+         username: userUserNameInput.value,
+         email: userEmailInput.value,
+      };
+
+      usersToLocalStorage.push(newUserObj);
+      saveInfoInLocalStorage("Users", usersToLocalStorage);
+      if (lastUsersContainer) {
+         lastUsers = usersToLocalStorage.slice(-5).reverse();
+         showLastUsers();
+      }
+      if (slicedUsersContainer) {
+         page = Math.ceil(usersToLocalStorage.length / itmesPerPageNumber);
+         updatePaginationInfo();
+         showSlicedUsers();
+         makePagintion(usersToLocalStorage);
+      }
+
+      countItemsNumbers(usersNumberElem, usersToLocalStorage);
+      showToast("افزودن کاربر", "success");
+   } else {
+      showToast("افزودن کاربر", "failed");
+   }
+   hideModal();
+}
+
 toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
 
 if (lastUsersContainer) {
@@ -586,6 +639,12 @@ if (toggleThemeBtn) {
 if (createProductBtn) {
    createProductBtn.addEventListener("click", function () {
       showModal("create-product");
+   });
+}
+
+if (createUsertBtn) {
+   createUsertBtn.addEventListener("click", function () {
+      showModal("create-user");
    });
 }
 
