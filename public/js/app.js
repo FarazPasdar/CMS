@@ -83,7 +83,7 @@ const lastUsersContainer = document.querySelector(".latest-users");
 const firstProductsContainer = document.querySelector("#first-products-container");
 const slicedProductsContainer = document.querySelector("#sliced-products-container");
 const slicedUsersContainer = document.querySelector("#sliced-users-container");
-const productsNumberElem = document.querySelector(".products-data");
+const productsNumberElems = document.querySelectorAll(".products-data");
 const usersNumberElem = document.querySelector(".users-data");
 const modalScreen = document.querySelector(".modal-screen");
 const modal = document.querySelector(".modal");
@@ -408,13 +408,17 @@ function removeItem(itemId, items) {
       if (firstProductsContainer) {
          firstProducts = products.slice(0, 5);
          showProducts(firstProducts, firstProductsContainer);
-         countItemsNumbers(productsNumberElem, products);
+         productsNumberElems.forEach(function (productsNumberElem) {
+            countItemsNumbers(productsNumberElem, products);
+         });
       }
 
       if (slicedProductsContainer) {
          slicedProducts = products.slice(firstIndex, lastIndex);
          showProducts(slicedProducts, slicedProductsContainer);
-         countItemsNumbers(productsNumberElem, products);
+         productsNumberElems.forEach(function (productsNumberElem) {
+            countItemsNumbers(productsNumberElem, products);
+         });
       }
 
       hideModal();
@@ -528,8 +532,10 @@ function createProduct() {
       showProducts(slicedProducts, slicedProductsContainer);
    }
 
-   countItemsNumbers(productsNumberElem, products);
-   makePagintion(products)
+   productsNumberElems.forEach(function (productsNumberElem) {
+      countItemsNumbers(productsNumberElem, products);
+   });
+   makePagintion(products);
    hideModal();
 }
 
@@ -541,6 +547,9 @@ if (lastUsersContainer) {
 
 if (firstProductsContainer) {
    showProducts(firstProducts, firstProductsContainer);
+   productsNumberElems.forEach(function (productsNumberElem) {
+      countItemsNumbers(productsNumberElem, products);
+   });
 }
 
 if (slicedProductsContainer) {
@@ -557,9 +566,11 @@ if (usersNumberElem) {
    countItemsNumbers(usersNumberElem, usersToLocalStorage);
 }
 
-if (productsNumberElem) {
-   countItemsNumbers(productsNumberElem, products);
-}
+productsNumberElems.forEach(function (productsNumberElem) {
+   if (productsNumberElem) {
+      countItemsNumbers(productsNumberElem, products);
+   }
+});
 
 if (toggleThemeBtn) {
    toggleThemeBtn.addEventListener("click", themeHandler);
