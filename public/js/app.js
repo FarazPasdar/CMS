@@ -319,7 +319,7 @@ function showModal(operation, itemId) {
       <main class="modal-content">
          <input type="text" class="modal-input" placeholder="عنوان محصول را وارد نمائید ..." id="product-title" />
          <input type="number" class="modal-input" placeholder="قیمت محصول را وارد نمائید ..." id="product-price" />
-         <input type="number" class="modal-input" placeholder="عنوان کوتاه محصول را وارد نمائید ..." id="product-shortName" />
+         <input type="text" class="modal-input" placeholder="عنوان کوتاه محصول را وارد نمائید ..." id="product-shortName" />
       </main>
       <footer class="modal-footer">
          <button class="cancel" onclick="hideModal()">انصراف</button>
@@ -515,27 +515,34 @@ function createProduct() {
    const productPriceInput = document.querySelector("#product-price");
    const productSlugInput = document.querySelector("#product-shortName");
 
-   const newProductObj = {
-      id: Math.floor(Math.random() * 9999),
-      title: productTitleInput.value,
-      price: productPriceInput.value,
-      slug: productSlugInput.value,
-   };
+   if (productTitleInput.value.trim()) {
+      const newProductObj = {
+         id: Math.floor(Math.random() * 9999),
+         title: productTitleInput.value,
+         price: +productPriceInput.value,
+         slug: productSlugInput.value,
+      };
 
-   products.push(newProductObj);
-   saveInfoInLocalStorage("Products", products);
-   if (firstProductsContainer) {
-      firstProducts = products.slice(0, 5);
-      showProducts(firstProducts, firstProductsContainer);
-   }
-   if (slicedProductsContainer) {
-      showProducts(slicedProducts, slicedProductsContainer);
-   }
+      products.push(newProductObj);
+      saveInfoInLocalStorage("Products", products);
+      if (firstProductsContainer) {
+         firstProducts = products.slice(0, 5);
+         showProducts(firstProducts, firstProductsContainer);
+      }
+      if (slicedProductsContainer) {
+         page = Math.ceil(products.length / itmesPerPageNumber);
+         updatePaginationInfo();
+         showProducts(slicedProducts, slicedProductsContainer);
+         makePagintion(products);
+      }
 
-   productsNumberElems.forEach(function (productsNumberElem) {
-      countItemsNumbers(productsNumberElem, products);
-   });
-   makePagintion(products);
+      productsNumberElems.forEach(function (productsNumberElem) {
+         countItemsNumbers(productsNumberElem, products);
+      });
+      showToast("افزودن محصول", "success");
+   } else {
+      showToast("افزودن محصول", "failed");
+   }
    hideModal();
 }
 
