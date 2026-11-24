@@ -40,18 +40,15 @@ const data = {
       { id: 20, title: "20 - تبلت سامسونگ گلکسی تب", price: 17400000, slug: "samsung-galaxy-tablet" },
    ],
 };
-let users = data.users;
-let usersToLocalStorage = [];
-users.forEach(function (user) {
-   const newUserObj = {
+
+let usersToLocalStorage = data.users.map(function (user) {
+   return {
       id: user.id,
       name: user.name,
       username: user.username,
       email: user.email,
    };
-   usersToLocalStorage.push(newUserObj);
 });
-
 let products = data.products;
 let theme = "light";
 
@@ -599,11 +596,9 @@ function createUser() {
    hideModal();
 }
 
-
 if (toggleSidebarBtn) {
    toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
 }
-
 
 if (lastUsersContainer) {
    showLastUsers();
