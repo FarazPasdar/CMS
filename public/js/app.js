@@ -599,7 +599,11 @@ function createUser() {
    hideModal();
 }
 
-toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
+
+if (toggleSidebarBtn) {
+   toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
+}
+
 
 if (lastUsersContainer) {
    showLastUsers();
