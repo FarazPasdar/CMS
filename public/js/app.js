@@ -41,6 +41,7 @@ const data = {
    ],
 };
 
+// - Items variables
 let usersToLocalStorage = data.users.map(function (user) {
    return {
       id: user.id,
