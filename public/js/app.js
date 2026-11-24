@@ -90,6 +90,14 @@ const toggleThemeBtn = document.querySelector(".theme-button");
 const createProductBtn = document.querySelector("#create-product");
 const createUsertBtn = document.querySelector("#create-user");
 
+function toggleSidebarWidth() {
+   sidebar.classList.toggle("open");
+}
+
+function saveInfoInLocalStorage(key, value) {
+   localStorage.setItem(key, JSON.stringify(value));
+}
+
 function getInfoFromLocalStorage(key, defaultValue) {
    const localInfo = JSON.parse(localStorage.getItem(key));
 
@@ -98,14 +106,6 @@ function getInfoFromLocalStorage(key, defaultValue) {
    } else {
       return defaultValue;
    }
-}
-
-function toggleSidebarWidth() {
-   sidebar.classList.toggle("open");
-}
-
-function saveInfoInLocalStorage(key, value) {
-   localStorage.setItem(key, JSON.stringify(value));
 }
 
 function showLastUsers() {
