@@ -53,6 +53,7 @@ let usersToLocalStorage = data.users.map(function (user) {
 let products = data.products;
 let theme = "light";
 
+// - Get info form localstorage
 usersToLocalStorage = getInfoFromLocalStorage("Users", usersToLocalStorage);
 products = getInfoFromLocalStorage("Products", products);
 theme = getInfoFromLocalStorage("Theme", theme);
@@ -104,9 +105,9 @@ function getInfoFromLocalStorage(key, defaultValue) {
 
    if (localInfo !== null) {
       return localInfo;
-   } else {
-      return defaultValue;
    }
+   
+   return defaultValue;
 }
 
 function showLastUsers() {
