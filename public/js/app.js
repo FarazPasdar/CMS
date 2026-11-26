@@ -58,9 +58,9 @@ usersToLocalStorage = getInfoFromLocalStorage("Users", usersToLocalStorage);
 products = getInfoFromLocalStorage("Products", products);
 theme = getInfoFromLocalStorage("Theme", theme);
 
-
+// - How many items I want
 let lastUsers = usersToLocalStorage.slice(-5).reverse();
-let firstProducts = products.slice(0, 5);
+let lastProducts = products.slice(0, 5).reverse();
 
 let page = 1;
 let itmesPerPageNumber = 4;
@@ -105,7 +105,7 @@ function getInfoFromLocalStorage(key, defaultValue) {
    if (localInfo !== null) {
       return localInfo;
    }
-   
+
    return defaultValue;
 }
 
