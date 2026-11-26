@@ -58,17 +58,20 @@ usersToLocalStorage = getInfoFromLocalStorage("Users", usersToLocalStorage);
 products = getInfoFromLocalStorage("Products", products);
 theme = getInfoFromLocalStorage("Theme", theme);
 
-// - How many items I want
+// - Get 5 last items
 let lastUsers = usersToLocalStorage.slice(-5).reverse();
 let lastProducts = products.slice(-5).reverse();
 
+// - Pagination variables
 let page = 1;
-let itmesPerPageNumber = 4;
-let firstIndex = (page - 1) * itmesPerPageNumber;
-let lastIndex = firstIndex + itmesPerPageNumber;
+let itemsPerPageNumber = 4;
 
+// - Items per page number variables
+let firstIndex = (page - 1) * itemsPerPageNumber;
+let lastIndex = firstIndex + itemsPerPageNumber;
 let slicedProducts = products.slice(firstIndex, lastIndex);
 let slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
+
 
 let selectedProductObj;
 let selectedUserObj;
@@ -168,32 +171,32 @@ function showProducts(products, container) {
    });
 }
 
-// function showSlicedUsers() {
-//    slicedUsersContainer.innerHTML = "";
-//    slicedUsers.forEach(function (user) {
-//       slicedUsersContainer.insertAdjacentHTML(
-//          "beforeend",
-//          `
-//          <div class="tableRow">
-//               <p class="user-fullName">${user.name}</p>
-//               <p class="user-username">${user.username}</p>
-//               <p class="user-email">${user.email}</p>
-//               <p class="user-password">********</p>
-//               <div class="product-manage">
-//                 <button class="edit-btn" onclick="showModal('edit-user', ${user.id})">
-//                   <!-- Edit icon -->
-//                   <i class="fas fa-edit"></i>
-//                 </button>
-//                 <button class="remove-btn" onclick="showModal('delete-user', ${user.id})">
-//                   <!-- Ban icon -->
-//                   <i class="fas fa-ban"></i>
-//                 </button>
-//               </div>
-//          </div>
-//          `,
-//       );
-//    });
-// }
+function showUsers() {
+   slicedUsersContainer.innerHTML = "";
+   slicedUsers.forEach(function (user) {
+      slicedUsersContainer.insertAdjacentHTML(
+         "beforeend",
+         `
+         <div class="tableRow">
+              <p class="user-fullName">${user.name}</p>
+              <p class="user-username">${user.username}</p>
+              <p class="user-email">${user.email}</p>
+              <p class="user-password">********</p>
+              <div class="product-manage">
+                <button class="edit-btn" onclick="showModal('edit-user', ${user.id})">
+                  <!-- Edit icon -->
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="remove-btn" onclick="showModal('delete-user', ${user.id})">
+                  <!-- Ban icon -->
+                  <i class="fas fa-ban"></i>
+                </button>
+              </div>
+         </div>
+         `,
+      );
+   });
+}
 
 // function countItemsNumbers(countElem, items) {
 //    countElem.innerHTML = items.length;
@@ -597,6 +600,9 @@ function showProducts(products, container) {
 //    hideModal();
 // }
 
+
+
+
 if (toggleSidebarBtn) {
    toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
 }
@@ -604,7 +610,6 @@ if (toggleSidebarBtn) {
 if (lastUsersContainer) {
    showLastUsers();
 }
-
 
 if (lastProductsContainer) {
    showProducts(lastProducts, lastProductsContainer);
@@ -615,39 +620,39 @@ if (lastProductsContainer) {
 
 if (slicedProductsContainer) {
    showProducts(slicedProducts, slicedProductsContainer);
-   makePagintion(products);
+   // makePagintion(products);
 }
 
 if (slicedUsersContainer) {
-   showSlicedUsers();
-   makePagintion(usersToLocalStorage);
+   showUsers();
+   // makePagintion(usersToLocalStorage);
 }
 
-if (usersNumberElem) {
-   countItemsNumbers(usersNumberElem, usersToLocalStorage);
-}
+// if (usersNumberElem) {
+//    countItemsNumbers(usersNumberElem, usersToLocalStorage);
+// }
 
-productsNumberElems.forEach(function (productsNumberElem) {
-   if (productsNumberElem) {
-      countItemsNumbers(productsNumberElem, products);
-   }
-});
+// productsNumberElems.forEach(function (productsNumberElem) {
+//    if (productsNumberElem) {
+//       countItemsNumbers(productsNumberElem, products);
+//    }
+// });
 
-if (toggleThemeBtn) {
-   toggleThemeBtn.addEventListener("click", themeHandler);
-}
+// if (toggleThemeBtn) {
+//    toggleThemeBtn.addEventListener("click", themeHandler);
+// }
 
-if (createProductBtn) {
-   createProductBtn.addEventListener("click", function () {
-      showModal("create-product");
-   });
-}
+// if (createProductBtn) {
+//    createProductBtn.addEventListener("click", function () {
+//       showModal("create-product");
+//    });
+// }
 
-if (createUsertBtn) {
-   createUsertBtn.addEventListener("click", function () {
-      showModal("create-user");
-   });
-}
+// if (createUsertBtn) {
+//    createUsertBtn.addEventListener("click", function () {
+//       showModal("create-user");
+//    });
+// }
 
 // saveInfoInLocalStorage("Users", usersToLocalStorage);
 // saveInfoInLocalStorage("Products", products);
