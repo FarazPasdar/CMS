@@ -13,6 +13,9 @@
       <link rel="stylesheet" href="./public/css/styles.css" />
       <!-- Fontawesome CDNJS 6.6.0 -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+      <script>
+         document.documentElement.classList.toggle("dark", theme === "dark");
+      </script>
    </head>
    <body>
       <header></header>
@@ -158,8 +161,7 @@
 
       <footer></footer>
 
-      <div class="toast hidden">
-      </div>
+      <div class="toast hidden"></div>
 
       <div class="modal-screen hidden">
          <div class="modal"></div>

@@ -58,7 +58,6 @@ usersToLocalStorage = getInfoFromLocalStorage("Users", usersToLocalStorage);
 products = getInfoFromLocalStorage("Products", products);
 theme = getInfoFromLocalStorage("Theme", theme);
 
-document.documentElement.classList.toggle("dark", theme === "dark");
 
 let lastUsers = usersToLocalStorage.slice(-5).reverse();
 let firstProducts = products.slice(0, 5);
