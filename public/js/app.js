@@ -60,7 +60,7 @@ theme = getInfoFromLocalStorage("Theme", theme);
 
 // - How many items I want
 let lastUsers = usersToLocalStorage.slice(-5).reverse();
-let lastProducts = products.slice(0, 5).reverse();
+let lastProducts = products.slice(-5).reverse();
 
 let page = 1;
 let itmesPerPageNumber = 4;
@@ -78,7 +78,7 @@ let toastInterval;
 const toggleSidebarBtn = document.querySelector(".toggle-sidebar");
 const sidebar = document.querySelector(".sidebar");
 const lastUsersContainer = document.querySelector(".latest-users");
-const firstProductsContainer = document.querySelector("#first-products-container");
+const lastProductsContainer = document.querySelector("#last-products-container");
 const slicedProductsContainer = document.querySelector("#sliced-products-container");
 const slicedUsersContainer = document.querySelector("#sliced-users-container");
 const productsNumberElems = document.querySelectorAll(".products-data");
@@ -168,434 +168,434 @@ function showProducts(products, container) {
    });
 }
 
-function showSlicedUsers() {
-   slicedUsersContainer.innerHTML = "";
-   slicedUsers.forEach(function (user) {
-      slicedUsersContainer.insertAdjacentHTML(
-         "beforeend",
-         `
-         <div class="tableRow">
-              <p class="user-fullName">${user.name}</p>
-              <p class="user-username">${user.username}</p>
-              <p class="user-email">${user.email}</p>
-              <p class="user-password">********</p>
-              <div class="product-manage">
-                <button class="edit-btn" onclick="showModal('edit-user', ${user.id})">
-                  <!-- Edit icon -->
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="remove-btn" onclick="showModal('delete-user', ${user.id})">
-                  <!-- Ban icon -->
-                  <i class="fas fa-ban"></i>
-                </button>
-              </div>
-         </div>
-         `,
-      );
-   });
-}
+// function showSlicedUsers() {
+//    slicedUsersContainer.innerHTML = "";
+//    slicedUsers.forEach(function (user) {
+//       slicedUsersContainer.insertAdjacentHTML(
+//          "beforeend",
+//          `
+//          <div class="tableRow">
+//               <p class="user-fullName">${user.name}</p>
+//               <p class="user-username">${user.username}</p>
+//               <p class="user-email">${user.email}</p>
+//               <p class="user-password">********</p>
+//               <div class="product-manage">
+//                 <button class="edit-btn" onclick="showModal('edit-user', ${user.id})">
+//                   <!-- Edit icon -->
+//                   <i class="fas fa-edit"></i>
+//                 </button>
+//                 <button class="remove-btn" onclick="showModal('delete-user', ${user.id})">
+//                   <!-- Ban icon -->
+//                   <i class="fas fa-ban"></i>
+//                 </button>
+//               </div>
+//          </div>
+//          `,
+//       );
+//    });
+// }
 
-function countItemsNumbers(countElem, items) {
-   countElem.innerHTML = items.length;
-}
+// function countItemsNumbers(countElem, items) {
+//    countElem.innerHTML = items.length;
+// }
 
-function showModal(operation, itemId) {
-   modalScreen.classList.remove("hidden");
+// function showModal(operation, itemId) {
+//    modalScreen.classList.remove("hidden");
 
-   if (operation === "edit-product") {
-      modal.innerHTML = `
-      <header class="modal-header">
-         <h3>ویرایش محصول</h3>
-         <button class="close-modal" onclick="hideModal()">
-            <i class="fas fa-times"></i>
-         </button>
-      </header>
-      <main class="modal-content">
-         <input type="text" class="modal-input" placeholder="عنوان محصول را وارد نمائید ..." id="product-title" />
-         <input type="number" class="modal-input" placeholder="قیمت محصول را وارد نمائید ..." id="product-price" />
-         <input type="text" class="modal-input" placeholder="عنوان کوتاه محصول را وارد نمائید ..." id="product-shortName" />
-      </main>
-      <footer class="modal-footer">
-         <button class="cancel" onclick="hideModal()">انصراف</button>
-         <button class="submit" onclick="editItem('Products')">تائید</button>
-      </footer>
-      `;
-      const productTitleInput = document.querySelector("#product-title");
-      const productPriceInput = document.querySelector("#product-price");
-      const productSlugInput = document.querySelector("#product-shortName");
+//    if (operation === "edit-product") {
+//       modal.innerHTML = `
+//       <header class="modal-header">
+//          <h3>ویرایش محصول</h3>
+//          <button class="close-modal" onclick="hideModal()">
+//             <i class="fas fa-times"></i>
+//          </button>
+//       </header>
+//       <main class="modal-content">
+//          <input type="text" class="modal-input" placeholder="عنوان محصول را وارد نمائید ..." id="product-title" />
+//          <input type="number" class="modal-input" placeholder="قیمت محصول را وارد نمائید ..." id="product-price" />
+//          <input type="text" class="modal-input" placeholder="عنوان کوتاه محصول را وارد نمائید ..." id="product-shortName" />
+//       </main>
+//       <footer class="modal-footer">
+//          <button class="cancel" onclick="hideModal()">انصراف</button>
+//          <button class="submit" onclick="editItem('Products')">تائید</button>
+//       </footer>
+//       `;
+//       const productTitleInput = document.querySelector("#product-title");
+//       const productPriceInput = document.querySelector("#product-price");
+//       const productSlugInput = document.querySelector("#product-shortName");
 
-      selectedProductObj = products.find(function (product) {
-         return product.id === itemId;
-      });
+//       selectedProductObj = products.find(function (product) {
+//          return product.id === itemId;
+//       });
 
-      if (selectedProductObj) {
-         productTitleInput.value = selectedProductObj.title;
-         productPriceInput.value = selectedProductObj.price;
-         productSlugInput.value = selectedProductObj.slug;
-      } else {
-         hideModal();
-      }
-   } else if (operation === "edit-user") {
-      modal.innerHTML = `
-      <i class="ui-border top red"></i>
-      <i class="ui-border bottom red"></i>
-     <header class="modal-header">
-         <h3>ویرایش اطلاعات کاربر</h3>
-         <button class="close-modal" onclick="hideModal()">
-            <i class="fas fa-times"></i>
-         </button>
-      </header>
-      <main class="modal-content">
-         <input type="text" class="modal-input" placeholder="نام و نام خانوادگی را وارد نمائید ..." id="user-fullName" />
-         <input type="text" class="modal-input" id="user-username" placeholder="نام کاربری را وارد نمائید ..." />
-         <input type="email" class="modal-input" id="user-email" placeholder="ایمیل را وارد نمائید ..." />
-      </main>
-      <footer class="modal-footer">
-         <button class="cancel" onclick="hideModal()">انصراف</button>
-         <button class="submit" onclick="editItem('Users')">تائید</button>
-      </footer>
-      `;
+//       if (selectedProductObj) {
+//          productTitleInput.value = selectedProductObj.title;
+//          productPriceInput.value = selectedProductObj.price;
+//          productSlugInput.value = selectedProductObj.slug;
+//       } else {
+//          hideModal();
+//       }
+//    } else if (operation === "edit-user") {
+//       modal.innerHTML = `
+//       <i class="ui-border top red"></i>
+//       <i class="ui-border bottom red"></i>
+//      <header class="modal-header">
+//          <h3>ویرایش اطلاعات کاربر</h3>
+//          <button class="close-modal" onclick="hideModal()">
+//             <i class="fas fa-times"></i>
+//          </button>
+//       </header>
+//       <main class="modal-content">
+//          <input type="text" class="modal-input" placeholder="نام و نام خانوادگی را وارد نمائید ..." id="user-fullName" />
+//          <input type="text" class="modal-input" id="user-username" placeholder="نام کاربری را وارد نمائید ..." />
+//          <input type="email" class="modal-input" id="user-email" placeholder="ایمیل را وارد نمائید ..." />
+//       </main>
+//       <footer class="modal-footer">
+//          <button class="cancel" onclick="hideModal()">انصراف</button>
+//          <button class="submit" onclick="editItem('Users')">تائید</button>
+//       </footer>
+//       `;
 
-      const userFullnameInput = document.querySelector("#user-fullName");
-      const userUserNameInput = document.querySelector("#user-username");
-      const userEmailInput = document.querySelector("#user-email");
+//       const userFullnameInput = document.querySelector("#user-fullName");
+//       const userUserNameInput = document.querySelector("#user-username");
+//       const userEmailInput = document.querySelector("#user-email");
 
-      selectedUserObj = usersToLocalStorage.find(function (user) {
-         return user.id === itemId;
-      });
+//       selectedUserObj = usersToLocalStorage.find(function (user) {
+//          return user.id === itemId;
+//       });
 
-      if (selectedUserObj) {
-         userFullnameInput.value = selectedUserObj.name;
-         userUserNameInput.value = selectedUserObj.username;
-         userEmailInput.value = selectedUserObj.email;
-      } else {
-         hideModal();
-      }
-   } else if (operation === "delete-product") {
-      modal.innerHTML = `
-        <i class="ui-border top red"></i>
-        <i class="ui-border bottom red"></i>
-        <header class="modal-header">
-          <h3>حذف محصول</h3>
-          <button class="close-modal" onclick="hideModal()">
-            <i class="fas fa-times"></i>
-          </button>
-        </header>
-        <main class="modal-content">
-          <p class="remove-text">آیا از حذف این محصول اطمینان دارید؟</p>
-        </main>
-        <footer class="modal-footer">
-          <button class="cancel" onclick="hideModal()">انصراف</button>
-          <button class="submit" onclick="removeItem(${itemId}, products)">تائید</button>
-        </footer>
-      `;
-   } else if (operation === "delete-user") {
-      modal.innerHTML = `
-      <i class="ui-border top red"></i>
-        <i class="ui-border bottom red"></i>
-        <header class="modal-header">
-          <h3>اخراج کاربر</h3>
-          <button class="close-modal" onclick="hideModal()">
-            <i class="fas fa-times"></i>
-          </button>
-        </header>
-        <main class="modal-content">
-          <p class="remove-text">آیا از اخراج(بن) کردن این کاربر اطمینان دارید؟</p>
-        </main>
-        <footer class="modal-footer">
-          <button class="cancel" onclick="hideModal()">انصراف</button>
-          <button class="submit" onclick="removeItem(${itemId}, usersToLocalStorage)">تائید</button>
-        </footer>
-      `;
-   } else if (operation === "create-product") {
-      modal.innerHTML = `
-      <header class="modal-header">
-         <h3>ایجاد محصول</h3>
-         <button class="close-modal" onclick="hideModal()">
-            <i class="fas fa-times"></i>
-         </button>
-      </header>
-      <main class="modal-content">
-         <input type="text" class="modal-input" placeholder="عنوان محصول را وارد نمائید ..." id="product-title" />
-         <input type="number" class="modal-input" placeholder="قیمت محصول را وارد نمائید ..." id="product-price" />
-         <input type="text" class="modal-input" placeholder="عنوان کوتاه محصول را وارد نمائید ..." id="product-shortName" />
-      </main>
-      <footer class="modal-footer">
-         <button class="cancel" onclick="hideModal()">انصراف</button>
-         <button class="submit" onclick="createProduct()">تائید</button>
-      </footer>
-      `;
-   } else if (operation === "create-user") {
-      modal.innerHTML = `
-      <header class="modal-header">
-         <h3>ایجاد کاربر جدید</h3>
-         <button class="close-modal" onclick="hideModal()">
-            <i class="fas fa-times"></i>
-         </button>
-      </header>
-      <main class="modal-content">
-         <input type="text" class="modal-input" placeholder="نام و نام خانوادگی را وارد نمائید ..." id="user-fullName" />
-         <input type="text" class="modal-input" id="user-username" placeholder="نام کاربری را وارد نمائید ..." />
-         <input type="email" class="modal-input" id="user-email" placeholder="ایمیل را وارد نمائید ..." />
-      </main>
-      <footer class="modal-footer">
-         <button class="cancel" onclick="hideModal()">انصراف</button>
-         <button class="submit" onclick="createUser()">تائید</button>
-      </footer>
-      `;
-   }
-}
+//       if (selectedUserObj) {
+//          userFullnameInput.value = selectedUserObj.name;
+//          userUserNameInput.value = selectedUserObj.username;
+//          userEmailInput.value = selectedUserObj.email;
+//       } else {
+//          hideModal();
+//       }
+//    } else if (operation === "delete-product") {
+//       modal.innerHTML = `
+//         <i class="ui-border top red"></i>
+//         <i class="ui-border bottom red"></i>
+//         <header class="modal-header">
+//           <h3>حذف محصول</h3>
+//           <button class="close-modal" onclick="hideModal()">
+//             <i class="fas fa-times"></i>
+//           </button>
+//         </header>
+//         <main class="modal-content">
+//           <p class="remove-text">آیا از حذف این محصول اطمینان دارید؟</p>
+//         </main>
+//         <footer class="modal-footer">
+//           <button class="cancel" onclick="hideModal()">انصراف</button>
+//           <button class="submit" onclick="removeItem(${itemId}, products)">تائید</button>
+//         </footer>
+//       `;
+//    } else if (operation === "delete-user") {
+//       modal.innerHTML = `
+//       <i class="ui-border top red"></i>
+//         <i class="ui-border bottom red"></i>
+//         <header class="modal-header">
+//           <h3>اخراج کاربر</h3>
+//           <button class="close-modal" onclick="hideModal()">
+//             <i class="fas fa-times"></i>
+//           </button>
+//         </header>
+//         <main class="modal-content">
+//           <p class="remove-text">آیا از اخراج(بن) کردن این کاربر اطمینان دارید؟</p>
+//         </main>
+//         <footer class="modal-footer">
+//           <button class="cancel" onclick="hideModal()">انصراف</button>
+//           <button class="submit" onclick="removeItem(${itemId}, usersToLocalStorage)">تائید</button>
+//         </footer>
+//       `;
+//    } else if (operation === "create-product") {
+//       modal.innerHTML = `
+//       <header class="modal-header">
+//          <h3>ایجاد محصول</h3>
+//          <button class="close-modal" onclick="hideModal()">
+//             <i class="fas fa-times"></i>
+//          </button>
+//       </header>
+//       <main class="modal-content">
+//          <input type="text" class="modal-input" placeholder="عنوان محصول را وارد نمائید ..." id="product-title" />
+//          <input type="number" class="modal-input" placeholder="قیمت محصول را وارد نمائید ..." id="product-price" />
+//          <input type="text" class="modal-input" placeholder="عنوان کوتاه محصول را وارد نمائید ..." id="product-shortName" />
+//       </main>
+//       <footer class="modal-footer">
+//          <button class="cancel" onclick="hideModal()">انصراف</button>
+//          <button class="submit" onclick="createProduct()">تائید</button>
+//       </footer>
+//       `;
+//    } else if (operation === "create-user") {
+//       modal.innerHTML = `
+//       <header class="modal-header">
+//          <h3>ایجاد کاربر جدید</h3>
+//          <button class="close-modal" onclick="hideModal()">
+//             <i class="fas fa-times"></i>
+//          </button>
+//       </header>
+//       <main class="modal-content">
+//          <input type="text" class="modal-input" placeholder="نام و نام خانوادگی را وارد نمائید ..." id="user-fullName" />
+//          <input type="text" class="modal-input" id="user-username" placeholder="نام کاربری را وارد نمائید ..." />
+//          <input type="email" class="modal-input" id="user-email" placeholder="ایمیل را وارد نمائید ..." />
+//       </main>
+//       <footer class="modal-footer">
+//          <button class="cancel" onclick="hideModal()">انصراف</button>
+//          <button class="submit" onclick="createUser()">تائید</button>
+//       </footer>
+//       `;
+//    }
+// }
 
-function hideModal() {
-   modalScreen.classList.add("hidden");
-}
+// function hideModal() {
+//    modalScreen.classList.add("hidden");
+// }
 
-function editItem(items) {
-   if (items === "Products") {
-      if (selectedProductObj) {
-         const productTitleInput = document.querySelector("#product-title");
-         const productPriceInput = document.querySelector("#product-price");
-         const productSlugInput = document.querySelector("#product-shortName");
+// function editItem(items) {
+//    if (items === "Products") {
+//       if (selectedProductObj) {
+//          const productTitleInput = document.querySelector("#product-title");
+//          const productPriceInput = document.querySelector("#product-price");
+//          const productSlugInput = document.querySelector("#product-shortName");
 
-         selectedProductObj.title = productTitleInput.value;
-         selectedProductObj.price = +productPriceInput.value;
-         selectedProductObj.slug = productSlugInput.value;
+//          selectedProductObj.title = productTitleInput.value;
+//          selectedProductObj.price = +productPriceInput.value;
+//          selectedProductObj.slug = productSlugInput.value;
 
-         saveInfoInLocalStorage("Products", products);
+//          saveInfoInLocalStorage("Products", products);
 
-         if (firstProductsContainer) {
-            showProducts(firstProducts, firstProductsContainer);
-         }
-         if (slicedProductsContainer) {
-            showProducts(slicedProducts, slicedProductsContainer);
-         }
+//          if (firstProductsContainer) {
+//             showProducts(firstProducts, firstProductsContainer);
+//          }
+//          if (slicedProductsContainer) {
+//             showProducts(slicedProducts, slicedProductsContainer);
+//          }
 
-         hideModal();
-         showToast("ویرایش", "success");
-      } else {
-         showToast("ویرایش", "failed");
-      }
-   } else if (items === "Users") {
-      if (selectedUserObj) {
-         const userFullnameInput = document.querySelector("#user-fullName");
-         const userUserNameInput = document.querySelector("#user-username");
-         const userEmailInput = document.querySelector("#user-email");
+//          hideModal();
+//          showToast("ویرایش", "success");
+//       } else {
+//          showToast("ویرایش", "failed");
+//       }
+//    } else if (items === "Users") {
+//       if (selectedUserObj) {
+//          const userFullnameInput = document.querySelector("#user-fullName");
+//          const userUserNameInput = document.querySelector("#user-username");
+//          const userEmailInput = document.querySelector("#user-email");
 
-         selectedUserObj.name = userFullnameInput.value;
-         selectedUserObj.username = userUserNameInput.value;
-         selectedUserObj.email = userEmailInput.value;
+//          selectedUserObj.name = userFullnameInput.value;
+//          selectedUserObj.username = userUserNameInput.value;
+//          selectedUserObj.email = userEmailInput.value;
 
-         saveInfoInLocalStorage("Users", usersToLocalStorage);
+//          saveInfoInLocalStorage("Users", usersToLocalStorage);
 
-         if (lastUsersContainer) {
-            showLastUsers();
-         }
+//          if (lastUsersContainer) {
+//             showLastUsers();
+//          }
 
-         if (slicedUsersContainer) {
-            showSlicedUsers();
-         }
+//          if (slicedUsersContainer) {
+//             showSlicedUsers();
+//          }
 
-         showToast("ویرایش", "success");
-         hideModal();
-      } else {
-         showToast("ویرایش", "failed");
-      }
-   }
-}
+//          showToast("ویرایش", "success");
+//          hideModal();
+//       } else {
+//          showToast("ویرایش", "failed");
+//       }
+//    }
+// }
 
-function removeItem(itemId, items) {
-   const selectedItemIndex = items.findIndex(function (item) {
-      return item.id === itemId;
-   });
+// function removeItem(itemId, items) {
+//    const selectedItemIndex = items.findIndex(function (item) {
+//       return item.id === itemId;
+//    });
 
-   if (selectedItemIndex !== -1) {
-      items.splice(selectedItemIndex, 1);
+//    if (selectedItemIndex !== -1) {
+//       items.splice(selectedItemIndex, 1);
 
-      if (firstProductsContainer || slicedProductsContainer) {
-         saveInfoInLocalStorage("Products", products);
-      }
+//       if (firstProductsContainer || slicedProductsContainer) {
+//          saveInfoInLocalStorage("Products", products);
+//       }
 
-      if (slicedUsersContainer) {
-         saveInfoInLocalStorage("Users", usersToLocalStorage);
-         slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
-         showSlicedUsers();
-         countItemsNumbers(usersNumberElem, usersToLocalStorage);
-      }
+//       if (slicedUsersContainer) {
+//          saveInfoInLocalStorage("Users", usersToLocalStorage);
+//          slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
+//          showSlicedUsers();
+//          countItemsNumbers(usersNumberElem, usersToLocalStorage);
+//       }
 
-      if (firstProductsContainer) {
-         firstProducts = products.slice(0, 5);
-         showProducts(firstProducts, firstProductsContainer);
-         productsNumberElems.forEach(function (productsNumberElem) {
-            countItemsNumbers(productsNumberElem, products);
-         });
-      }
+//       if (firstProductsContainer) {
+//          firstProducts = products.slice(0, 5);
+//          showProducts(firstProducts, firstProductsContainer);
+//          productsNumberElems.forEach(function (productsNumberElem) {
+//             countItemsNumbers(productsNumberElem, products);
+//          });
+//       }
 
-      if (slicedProductsContainer) {
-         slicedProducts = products.slice(firstIndex, lastIndex);
-         showProducts(slicedProducts, slicedProductsContainer);
-         productsNumberElems.forEach(function (productsNumberElem) {
-            countItemsNumbers(productsNumberElem, products);
-         });
-      }
+//       if (slicedProductsContainer) {
+//          slicedProducts = products.slice(firstIndex, lastIndex);
+//          showProducts(slicedProducts, slicedProductsContainer);
+//          productsNumberElems.forEach(function (productsNumberElem) {
+//             countItemsNumbers(productsNumberElem, products);
+//          });
+//       }
 
-      hideModal();
-      showToast("حذف", "success");
-      if (slicedProductsContainer) {
-         makePagintion(products);
-      }
-      if (slicedUsersContainer) {
-         makePagintion(usersToLocalStorage);
-      }
-   } else {
-      hideModal();
-      showToast("حذف", "failed");
-   }
-}
+//       hideModal();
+//       showToast("حذف", "success");
+//       if (slicedProductsContainer) {
+//          makePagintion(products);
+//       }
+//       if (slicedUsersContainer) {
+//          makePagintion(usersToLocalStorage);
+//       }
+//    } else {
+//       hideModal();
+//       showToast("حذف", "failed");
+//    }
+// }
 
-function showToast(action, condition) {
-   clearInterval(toastInterval);
+// function showToast(action, condition) {
+//    clearInterval(toastInterval);
 
-   const message = condition === "success" ? "با موفقیت انجام شد" : "با شکست مواجه شد";
-   toast.className = `toast ${condition}`;
-   toast.innerHTML = `
-      <i class="ui-border top-0"></i>
-      <span class="icon-card">
-         <span class="icon"></span>
-      </span>
-      <span class="toast-content">${action} ${message}</span>
-      <div class="process-bar">
-         <div class="process"></div>
-      </div>
-      `;
+//    const message = condition === "success" ? "با موفقیت انجام شد" : "با شکست مواجه شد";
+//    toast.className = `toast ${condition}`;
+//    toast.innerHTML = `
+//       <i class="ui-border top-0"></i>
+//       <span class="icon-card">
+//          <span class="icon"></span>
+//       </span>
+//       <span class="toast-content">${action} ${message}</span>
+//       <div class="process-bar">
+//          <div class="process"></div>
+//       </div>
+//       `;
 
-   const processElem = document.querySelector(".process");
-   let counter = 0;
-   toastInterval = setInterval(function () {
-      counter++;
+//    const processElem = document.querySelector(".process");
+//    let counter = 0;
+//    toastInterval = setInterval(function () {
+//       counter++;
 
-      processElem.style.width = `${counter}%`;
+//       processElem.style.width = `${counter}%`;
 
-      if (counter >= 100) {
-         clearInterval(toastInterval);
-         hideToast();
-      }
-   }, 60);
-}
+//       if (counter >= 100) {
+//          clearInterval(toastInterval);
+//          hideToast();
+//       }
+//    }, 60);
+// }
 
-function hideToast() {
-   toast.classList.add("hidden");
-}
+// function hideToast() {
+//    toast.classList.add("hidden");
+// }
 
-function makePagintion(items) {
-   const pagintionSlidesNumber = Math.ceil(items.length / itmesPerPageNumber);
+// function makePagintion(items) {
+//    const pagintionSlidesNumber = Math.ceil(items.length / itmesPerPageNumber);
 
-   paginationElem.innerHTML = "";
-   for (let i = 1; i < pagintionSlidesNumber + 1; i++) {
-      paginationElem.innerHTML += `<span tabindex="1" class="page ${i === page ? "active" : ""}" onclick="changePage(${i})" >${i}</span>`;
-   }
-}
+//    paginationElem.innerHTML = "";
+//    for (let i = 1; i < pagintionSlidesNumber + 1; i++) {
+//       paginationElem.innerHTML += `<span tabindex="1" class="page ${i === page ? "active" : ""}" onclick="changePage(${i})" >${i}</span>`;
+//    }
+// }
 
-function changePage(itemId) {
-   page = itemId;
-   updatePaginationInfo();
+// function changePage(itemId) {
+//    page = itemId;
+//    updatePaginationInfo();
 
-   if (slicedProductsContainer) {
-      showProducts(slicedProducts, slicedProductsContainer);
-      makePagintion(products);
-   }
+//    if (slicedProductsContainer) {
+//       showProducts(slicedProducts, slicedProductsContainer);
+//       makePagintion(products);
+//    }
 
-   if (slicedUsersContainer) {
-      showSlicedUsers();
-      makePagintion(usersToLocalStorage);
-   }
-}
+//    if (slicedUsersContainer) {
+//       showSlicedUsers();
+//       makePagintion(usersToLocalStorage);
+//    }
+// }
 
-function updatePaginationInfo() {
-   itmesPerPageNumber = 4;
-   firstIndex = (page - 1) * itmesPerPageNumber;
-   lastIndex = firstIndex + itmesPerPageNumber;
+// function updatePaginationInfo() {
+//    itmesPerPageNumber = 4;
+//    firstIndex = (page - 1) * itmesPerPageNumber;
+//    lastIndex = firstIndex + itmesPerPageNumber;
 
-   slicedProducts = products.slice(firstIndex, lastIndex);
-   slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
-}
+//    slicedProducts = products.slice(firstIndex, lastIndex);
+//    slicedUsers = usersToLocalStorage.slice(firstIndex, lastIndex);
+// }
 
-function themeHandler() {
-   theme = theme === "dark" ? "light" : "dark";
+// function themeHandler() {
+//    theme = theme === "dark" ? "light" : "dark";
 
-   document.documentElement.classList.toggle("dark", theme === "dark");
+//    document.documentElement.classList.toggle("dark", theme === "dark");
 
-   saveInfoInLocalStorage("Theme", theme);
-}
+//    saveInfoInLocalStorage("Theme", theme);
+// }
 
-function createProduct() {
-   const productTitleInput = document.querySelector("#product-title");
-   const productPriceInput = document.querySelector("#product-price");
-   const productSlugInput = document.querySelector("#product-shortName");
+// function createProduct() {
+//    const productTitleInput = document.querySelector("#product-title");
+//    const productPriceInput = document.querySelector("#product-price");
+//    const productSlugInput = document.querySelector("#product-shortName");
 
-   if (productTitleInput.value.trim()) {
-      const newProductObj = {
-         id: Math.floor(Math.random() * 9999),
-         title: productTitleInput.value,
-         price: +productPriceInput.value,
-         slug: productSlugInput.value,
-      };
+//    if (productTitleInput.value.trim()) {
+//       const newProductObj = {
+//          id: Math.floor(Math.random() * 9999),
+//          title: productTitleInput.value,
+//          price: +productPriceInput.value,
+//          slug: productSlugInput.value,
+//       };
 
-      products.push(newProductObj);
-      saveInfoInLocalStorage("Products", products);
-      if (firstProductsContainer) {
-         firstProducts = products.slice(0, 5);
-         showProducts(firstProducts, firstProductsContainer);
-      }
-      if (slicedProductsContainer) {
-         page = Math.ceil(products.length / itmesPerPageNumber);
-         updatePaginationInfo();
-         showProducts(slicedProducts, slicedProductsContainer);
-         makePagintion(products);
-      }
+//       products.push(newProductObj);
+//       saveInfoInLocalStorage("Products", products);
+//       if (firstProductsContainer) {
+//          firstProducts = products.slice(0, 5);
+//          showProducts(firstProducts, firstProductsContainer);
+//       }
+//       if (slicedProductsContainer) {
+//          page = Math.ceil(products.length / itmesPerPageNumber);
+//          updatePaginationInfo();
+//          showProducts(slicedProducts, slicedProductsContainer);
+//          makePagintion(products);
+//       }
 
-      productsNumberElems.forEach(function (productsNumberElem) {
-         countItemsNumbers(productsNumberElem, products);
-      });
-      showToast("افزودن محصول", "success");
-   } else {
-      showToast("افزودن محصول", "failed");
-   }
-   hideModal();
-}
+//       productsNumberElems.forEach(function (productsNumberElem) {
+//          countItemsNumbers(productsNumberElem, products);
+//       });
+//       showToast("افزودن محصول", "success");
+//    } else {
+//       showToast("افزودن محصول", "failed");
+//    }
+//    hideModal();
+// }
 
-function createUser() {
-   const userFullNameInput = document.querySelector("#user-fullName");
-   const userUserNameInput = document.querySelector("#user-username");
-   const userEmailInput = document.querySelector("#user-email");
+// function createUser() {
+//    const userFullNameInput = document.querySelector("#user-fullName");
+//    const userUserNameInput = document.querySelector("#user-username");
+//    const userEmailInput = document.querySelector("#user-email");
 
-   if (userFullNameInput.value.trim()) {
-      const newUserObj = {
-         id: Math.floor(Math.random() * 9999),
-         name: userFullNameInput.value,
-         username: userUserNameInput.value,
-         email: userEmailInput.value,
-      };
+//    if (userFullNameInput.value.trim()) {
+//       const newUserObj = {
+//          id: Math.floor(Math.random() * 9999),
+//          name: userFullNameInput.value,
+//          username: userUserNameInput.value,
+//          email: userEmailInput.value,
+//       };
 
-      usersToLocalStorage.push(newUserObj);
-      saveInfoInLocalStorage("Users", usersToLocalStorage);
-      if (lastUsersContainer) {
-         lastUsers = usersToLocalStorage.slice(-5).reverse();
-         showLastUsers();
-      }
-      if (slicedUsersContainer) {
-         page = Math.ceil(usersToLocalStorage.length / itmesPerPageNumber);
-         updatePaginationInfo();
-         showSlicedUsers();
-         makePagintion(usersToLocalStorage);
-      }
+//       usersToLocalStorage.push(newUserObj);
+//       saveInfoInLocalStorage("Users", usersToLocalStorage);
+//       if (lastUsersContainer) {
+//          lastUsers = usersToLocalStorage.slice(-5).reverse();
+//          showLastUsers();
+//       }
+//       if (slicedUsersContainer) {
+//          page = Math.ceil(usersToLocalStorage.length / itmesPerPageNumber);
+//          updatePaginationInfo();
+//          showSlicedUsers();
+//          makePagintion(usersToLocalStorage);
+//       }
 
-      countItemsNumbers(usersNumberElem, usersToLocalStorage);
-      showToast("افزودن کاربر", "success");
-   } else {
-      showToast("افزودن کاربر", "failed");
-   }
-   hideModal();
-}
+//       countItemsNumbers(usersNumberElem, usersToLocalStorage);
+//       showToast("افزودن کاربر", "success");
+//    } else {
+//       showToast("افزودن کاربر", "failed");
+//    }
+//    hideModal();
+// }
 
 if (toggleSidebarBtn) {
    toggleSidebarBtn.addEventListener("click", toggleSidebarWidth);
@@ -605,11 +605,12 @@ if (lastUsersContainer) {
    showLastUsers();
 }
 
-if (firstProductsContainer) {
-   showProducts(firstProducts, firstProductsContainer);
-   productsNumberElems.forEach(function (productsNumberElem) {
-      countItemsNumbers(productsNumberElem, products);
-   });
+
+if (lastProductsContainer) {
+   showProducts(lastProducts, lastProductsContainer);
+   // productsNumberElems.forEach(function (productsNumberElem) {
+   //    countItemsNumbers(productsNumberElem, products);
+   // });
 }
 
 if (slicedProductsContainer) {
